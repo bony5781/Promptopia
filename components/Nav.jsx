@@ -8,7 +8,7 @@ import { signIn, signOut, useSession, getProviders } from 'next-auth/react';
 
 const Nav = () => {
 
-  const { data: session} = useSession();
+  const { data: session } = useSession();
   const [providers, setProviders] = useState(null);
   const [toggleDropdown, setToggleDropdown] = useState(false);
 
@@ -20,6 +20,8 @@ const Nav = () => {
 
     setUpProviders();
   }, [])
+
+
 
   return (
     <nav className="flex-between w-full mb-16 pt-3">
@@ -36,7 +38,7 @@ const Nav = () => {
             <Link href="/create-prompt" className="black_btn">
               Create Post
             </Link>
-            <button type="button" onClick={signOut} className="outline_btn">
+            <button type="button" onClick={() => signOut({ callbackUrl: '/' })} className="outline_btn">
               Sign Out
             </button>
             <Link href="/profile">
@@ -48,7 +50,7 @@ const Nav = () => {
             {
               providers &&
               Object.values(providers).map((provider) => (
-                <button type="button" key={provider.name} onClick={() => signIn(provider.id)} className="black_btn">
+                <button type="button" key={provider.name} onClick={() => signIn(provider.id, { callbackUrl: '/' })} className="black_btn">
                   Sign In
                 </button>
               ))
